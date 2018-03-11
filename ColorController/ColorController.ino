@@ -1,4 +1,4 @@
-    /*Creator: Carlos Garcia Roig
+    /*Creator: Carlos Garcia 
      * This code allow you control an LCD- RGB Backlight colors 
      * by selecting each one of them using a button and adjusting
      * its brightness using an Angle Sensor
