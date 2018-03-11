@@ -17,7 +17,7 @@
 
     rgb_lcd lcd;
     
-    int ContadorColor = 1; 
+    int ContadorColor = 0; 
     int ColorR = 0;
     int ColorG = 0;
     int ColorB = 0;
@@ -26,39 +26,37 @@
     void setup()
     {
         Serial.begin(9600);
-        pinsInit();
+        pinMode(ROTARY_ANGLE_SENSOR, INPUT);
+        pinMode(2,INPUT);
         lcd.begin(16,2);
     }
 
     void loop()
     {
         //Color selector  
-        // 1 = Red; 2 = Green ; 3 = Blue
+        // 0 = Red; 1 = Green ; 2 = Blue
         if(digitalRead(2) == HIGH){
-          ContadorColor++;
-          if(ContadorColor > 3){
-            ContadorColor = 1;
-            }
+          ContadorColor = (ContadorColor+1)%3;
           }
         int degrees;
         degrees = getDegree();
         int brightness = map(degrees, 0, FULL_ANGLE, 0, 255); 
         switch(ContadorColor){
-          case 1:
+          case 0:
             ColorR = brightness; 
             lcd.setRGB(ColorR,ColorG,ColorB);
             lcd.clear();
             sprintf (buffer,">R=%dG=%dB=%d",ColorR,ColorG,ColorB);
             lcd.print (buffer);
             break;
-          case 2: 
+          case 1: 
             ColorG = brightness;
             lcd.setRGB(ColorR,ColorG,ColorB);
             lcd.clear();
             sprintf (buffer,"R=%d>G=%dB=%d",ColorR,ColorG,ColorB);
             lcd.print (buffer);
             break;
-          case 3: 
+          case 2: 
             ColorB = brightness;
             lcd.setRGB(ColorR,ColorG,ColorB);
             lcd.clear();
@@ -67,12 +65,6 @@
             break;
           } 
          delay(150);                                       
-    }
-    void pinsInit()
-    {
-        pinMode(ROTARY_ANGLE_SENSOR, INPUT);
-        pinMode(2,INPUT);
-        
     }
     /************************************************************************/
     /*Function: Get the angle between the mark and the starting position    */
